@@ -18,11 +18,14 @@ namespace Nestle_service_api.Controllers
     [Route("api/[controller]/[action]")]
     public class Survey_Link : Controller
     {
-        private readonly Nestle_Connect _Nestle_Connect;
+       
 
-        public Survey_Link(Nestle_Connect Nestle_Connect)
+        private readonly Nestle_Connect _Nestle_Connect;
+        private readonly Fcc_Connect _fcc_Connect;
+        public Survey_Link(Nestle_Connect Nestle_Connect, Fcc_Connect fcc_Connect)
         {
             _Nestle_Connect = Nestle_Connect;
+            _fcc_Connect = fcc_Connect;
         }
 
         [HttpPost]
@@ -385,7 +388,23 @@ namespace Nestle_service_api.Controllers
                 return Ok("Not");
             }
         }
-        
-      
+       
+        private void savelog(tbMessageLog data)
+        {
+            try
+            {
+                _fcc_Connect.tbMessageLog.Add(data);
+                _fcc_Connect.SaveChanges();
+            }
+            catch { }
+        }
+        static string ConvertStringToHex(string message)
+        {
+            byte[] bytes = Encoding.BigEndianUnicode.GetBytes(message);
+            string hex = BitConverter.ToString(bytes);
+            hex = hex.Replace("-", "");
+            return hex;
+        }
+
     }
 }

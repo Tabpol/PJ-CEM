@@ -42,6 +42,7 @@ namespace Nestle_service_api
             });
             services.AddDbContext<Nestle_Connect>(options => options.UseSqlServer(Configuration.GetConnectionString("DbNestle_CEM")));
             services.AddDbContext<SPContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbNestle_CEM")));
+            services.AddDbContext<Fcc_Connect>(options => options.UseSqlServer(Configuration.GetConnectionString("DbiFcc")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
