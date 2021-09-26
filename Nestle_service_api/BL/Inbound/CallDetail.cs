@@ -169,13 +169,13 @@ namespace Nestle_service_api.BL.Inbound
                 await inboundCaseRepository.UpdateAsync(inboundCase);
             }
 
-            var inboundlog = inboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id).OrderByDescending(x => x.number).FirstOrDefault();
+            var inboundlog = inboundlogsRepository.Table.Where(x => x.case_id == logsInbound.case_id).OrderByDescending(x => x.number_of_repeat).FirstOrDefault();
             var inbound = new tb_logs_inbound
             {
                 case_id = logsInbound.case_id,
-                aqent_id = logsInbound.aqent_id,
+                aqent_name = logsInbound.aqent_name,
                 create_date = DateTime.Now,
-                number = inboundlog == null ? 1 : inboundlog.number + 1,
+                number_of_repeat = inboundlog == null ? 1 : inboundlog.number_of_repeat + 1,
                 status_of_case = logsInbound.status_of_case,
                 status_of_contact = logsInbound.status_of_contact,
                 CreatedBy = UserName,

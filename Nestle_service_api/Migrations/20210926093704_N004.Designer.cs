@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nestle_service_api.Context;
 
 namespace Nestle_service_api.Migrations
 {
     [DbContext(typeof(Nestle_Connect))]
-    partial class Nestle_ConnectModelSnapshot : ModelSnapshot
+    [Migration("20210926093704_N004")]
+    partial class N004
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -509,8 +511,8 @@ namespace Nestle_service_api.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("aqent_name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("aqent_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("case_id")
                         .HasColumnType("nvarchar(max)");
@@ -554,8 +556,8 @@ namespace Nestle_service_api.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("aqent_name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("aqent_id")
+                        .HasColumnType("int");
 
                     b.Property<string>("case_id")
                         .HasColumnType("nvarchar(max)");

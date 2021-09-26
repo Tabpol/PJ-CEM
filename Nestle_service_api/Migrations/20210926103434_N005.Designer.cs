@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nestle_service_api.Context;
 
 namespace Nestle_service_api.Migrations
 {
     [DbContext(typeof(Nestle_Connect))]
-    partial class Nestle_ConnectModelSnapshot : ModelSnapshot
+    [Migration("20210926103434_N005")]
+    partial class N005
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
