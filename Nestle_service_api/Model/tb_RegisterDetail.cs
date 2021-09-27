@@ -96,5 +96,6 @@ namespace Nestle_service_api.Model
         public string pet_type10 { get; set; }
         public string pet_year10 { get; set; }
         public string purchase { get; set; }
+        public string purchases_note { get; set; }
     }
 }

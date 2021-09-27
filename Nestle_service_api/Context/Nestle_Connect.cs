@@ -27,6 +27,7 @@ namespace Nestle_service_api.Context
         public DbSet<tb_sub_district> tb_sub_district { get; set; }
         public DbSet<tb_zip_code> tb_zip_code { get; set; }
         public DbSet<tb_user_login> tb_user_login { get; set; }
+        public DbSet<tb_segment> tb_segment { get; set; }
         public DbSet<tb_logs_inbound> tb_logs_inbound { get; set; }
         public DbSet<tb_logs_outbound> tb_logs_outbound { get; set; }
         public DbSet<tb_inbound_case> tb_inbound_case { get; set; }

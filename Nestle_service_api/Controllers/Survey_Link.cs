@@ -230,6 +230,28 @@ namespace Nestle_service_api.Controllers
 
         }       
         [HttpGet]
+        public ActionResult<Array> Getsegment(string idmaster)
+        {
+           // try {
+                var data = _Nestle_Connect.tb_segment.Where(x => x.id_master == idmaster).ToList();
+
+                if (data.Count != 0)
+                {
+                    string[] arrayurl = new string[] { data[0].bigfan_sms_1, data[0].bigfan_sms_2 };
+                    return Ok(arrayurl);
+                }
+                else
+                {
+                    return Ok();
+                }
+            //}
+           // catch
+            //{
+            //    return NotFound();
+           // }
+            
+        }
+        [HttpGet]
         public ActionResult CheckOTP(string OTP, string id)
         {
             var data = _Nestle_Connect.tb_RegisterHeading.Where(x => x.OTP == OTP && x.id_master == id).ToList();
@@ -380,7 +402,7 @@ namespace Nestle_service_api.Controllers
             var data = _Nestle_Connect.tb_user_login.Where(x => x.user_ == u.user_ && x.password_ == u.password_).ToList();
             if (data.Count != 0)
             {
-                return Ok("success");
+                return Ok(data.ToList());
             }
             else
             {
