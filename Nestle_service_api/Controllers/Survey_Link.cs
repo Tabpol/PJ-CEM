@@ -228,8 +228,7 @@ namespace Nestle_service_api.Controllers
                 return NotFound();
             }
 
-        }
-
+        }       
         [HttpGet]
         public ActionResult CheckOTP(string OTP, string id)
         {

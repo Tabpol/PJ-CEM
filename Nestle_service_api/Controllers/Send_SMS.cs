@@ -48,9 +48,9 @@ namespace Nestle_service_api.Controllers
 
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
-                    string json = "{\"phone_no\":\"" + _telno + "\"," +
-                                   "\"msgs\":\" " + _msg + "\"," +
-                                   "\"senders\":\"" + _sender + "\"," +
+                    string json = "{\"phone_no\":\"" + _telno.Trim() + "\"," +
+                                   "\"msgs\":\" " + _msg.Trim() + "\"," +
+                                   "\"senders\":\"" + _sender.Trim() + "\"," +
                                   "\"refID\":\"" + _refID + "\"," +
                                   "\"projectID\":\"" + _projectID + "\"}";
 
