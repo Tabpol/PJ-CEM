@@ -4,6 +4,7 @@ using Nestle_service_api.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -26,78 +27,55 @@ namespace Nestle_service_api.Controllers
         public ActionResult<string> SendMsg(prmSms S)
         {
 
-            string RefNo = "1";
-            string Sender = S.Senders;
-            string Msn = S.phone_no;
-            string Sno = "00";
-            string MsgType = "H";
-            string User = "api1614158";
-            string Password = "iafg2qp8";
-            string Msg = ConvertStringToHex(S.Msgs);
-            string Status = "";
-            string alert_;
-            tbMessageLog lg = new tbMessageLog();
-            lg.LogID = 0;
-            lg.Channel = "";
-            lg.RefID = S.RefID;
-            lg.ProjectID = S.ProjectID;
-            lg.TelNo = S.phone_no;
-            lg.SendMessage = S.Msgs;
-            lg.ApiMessage = "";
-            lg.SendDateTime = DateTime.Now;
-
-            try
+            if (_sendSMS_dtac(S.Senders,S.RefID,S.ProjectID,S.phone_no,S.Msgs) == true)
             {
-                using (var client = new WebClient())
-                {
-                    var values = new NameValueCollection();
-                    values["RefNo"] = RefNo;
-                    values["Sender"] = Sender;
-                    values["Msn"] = Msn;
-                    values["Sno"] = Sno;
-                    values["MsgType"] = MsgType;
-                    values["User"] = User;
-                    values["Password"] = Password;
-                    values["Msg"] = Msg;
-                    values["Encoding"] = "8";
-                    string url = "https://apismsplus.dtac.co.th/servlet/com.iess.socket.SmsCorplink";
-                    var response = client.UploadValues(url, values);
-
-                    var responseString = Encoding.Default.GetString(response);
-                    alert_ = responseString;
-                    lg.ApiMessage = alert_;
-                    string[] s2 = responseString.Split('\n');
-                    foreach (string author in s2)
-                    {
-                        if (author == "Status=0")
-                        {
-                            Status = "Success";
-                        }
-                    }
-                }
-
-                if (Status == "Success")
-                {
-                    lg.Channel = "SMS_" + Status + "";
-                    savelog(lg);
-                    return Ok(Status.ToString());
-
-                }
-                else
-                {
-                    lg.Channel = "SMS_Failed";
-                    savelog(lg);
-                    return NotFound(Status.ToString());
-                }
+                return Ok();
             }
-            catch
+            else
             {
-                lg.Channel = "SMS_ServerFailed";
-                lg.ApiMessage = "ส่ง SMS ไม่สำเร็จ ";
-                savelog(lg);
                 return NotFound();
             }
 
+        }
+        private bool _sendSMS_dtac(string _sender, string _refID, string _projectID, string _telno, string _msg)
+        {
+
+            try
+            {
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api05.fcc.co.th/api/Send_SMS/SendMsg");
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = "{\"phone_no\":\"" + _telno + "\"," +
+                                   "\"msgs\":\" " + _msg + "\"," +
+                                   "\"senders\":\"" + _sender + "\"," +
+                                  "\"refID\":\"" + _refID + "\"," +
+                                  "\"projectID\":\"" + _projectID + "\"}";
+
+                    streamWriter.Write(json);
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd().ToLower();
+                    if (result.IndexOf("success", 0) > -1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
         static string ConvertStringToHex(string message)
         {
