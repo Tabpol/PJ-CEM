@@ -7,7 +7,7 @@ namespace Nestle_service_api.Model
 {
     public class tb_segment
     {
-        [key]
+        //[key]
         public int tb_id { get; set; }
         public string id_master { get; set; }
         public string g1_1_segment { get; set; }
